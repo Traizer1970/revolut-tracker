@@ -1,10 +1,13 @@
 import { supabase } from '../lib/supabase'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   const { data: transactions } = await supabase
     .from('transactions')
     .select('*')
     .order('date', { ascending: false })
+
 
   return (
     <main className="min-h-screen bg-gray-50 p-4 md:p-8 text-black">
@@ -24,7 +27,7 @@ export default async function Home() {
             </div>
           ))}
 
-          {transactions?.length === 0 && (
+          {(!transactions || transactions.length === 0) && (
             <p className="text-center text-gray-400 mt-10">Nenhuma transação encontrada.</p>
           )}
         </div>
